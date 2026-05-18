@@ -1,0 +1,105 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{style/cv}[2026/05/18 CV layout]
+
+\RequirePackage{iftex}
+\ifLuaTeX%
+\else
+  \PackageError{style/cv}{This CV must be built with LuaLaTeX}{Run latexmk with -lualatex.}
+\fi
+
+\RequirePackage{fontspec}
+\RequirePackage[a4paper,margin=0.62in]{geometry}
+\RequirePackage{microtype}
+\RequirePackage[hidelinks,pdfencoding=auto,psdextra]{hyperref}
+\RequirePackage{bookmark}
+\RequirePackage{enumitem}
+\RequirePackage{array}
+\RequirePackage{tabularx}
+\RequirePackage{needspace}
+\RequirePackage{xcolor}
+
+\definecolor{cvblack}{HTML}{111111}
+\definecolor{cvrule}{HTML}{777777}
+
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{SourceSerif4}[
+  Path=fonts/source-serif-4/,
+  Extension=.otf,
+  UprightFont=*-Regular,
+  ItalicFont=*-It,
+  BoldFont=*-Semibold,
+  BoldItalicFont=*-SemiboldIt
+]
+\newfontfamily\cvdisplayfont{Fraunces72ptSoft}[
+  Path=fonts/fraunces/,
+  Extension=.otf,
+  UprightFont=*-Regular,
+  BoldFont=*-Bold
+]
+
+\hypersetup{
+  pdftitle={Allie Mari Jones CV},
+  pdfauthor={Allie Mari Jones},
+  pdfsubject={Curriculum vitae},
+  pdfcreator={LuaLaTeX with hyperref}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.18em}
+\setlength{\tabcolsep}{0pt}
+\setlength{\emergencystretch}{1.5em}
+\hbadness=10000
+\raggedbottom%
+\color{cvblack}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\cvapprox}{\textasciitilde}
+
+\newcommand{\cvname}[1]{%
+  {\cvdisplayfont\fontsize{20}{22}\selectfont\bfseries #1}\par%
+  \vspace{0.12em}%
+}
+
+\newcommand{\cvcontactsep}{\,\textperiodcentered\,}
+
+\newcommand{\cvcontact}[1]{%
+  {\small #1}\par%
+  \addvspace{0.65em}%
+}
+
+\newcommand{\cvsection}[1]{%
+  \Needspace{4\baselineskip}%
+  \addvspace{0.72em}%
+  {\cvdisplayfont\fontsize{13}{15}\selectfont\bfseries #1}\par%
+  \nobreak\vspace{0.08em}%
+}
+
+\newcommand{\cvskill}[2]{%
+  \textbf{#1} & #2\tabularnewline[0.2em]%
+}
+
+\newenvironment{cvskills}{%
+  \tabularx{\textwidth}{@{}L{0.95in}Y@{}}%
+}{%
+  \endtabularx%
+}
+
+\newcommand{\cvrole}[3]{%
+  \Needspace{5\baselineskip}%
+  \addvspace{0.24em}%
+  \noindent\makebox[\textwidth]{\textbf{#1}\hfill\textbf{#2}}\par%
+  {\small #3}\par%
+}
+
+\newcommand{\cveducation}[3]{%
+  \Needspace{3\baselineskip}%
+  \noindent\makebox[\textwidth]{\textbf{#1}\hfill #2}\par%
+  {\small #3}\par%
+}
+
+\newenvironment{cvitems}{%
+  \begin{itemize}[leftmargin=1.25em,itemsep=0.18em,topsep=0.25em,parsep=0pt,partopsep=0pt]%
+}{%
+  \end{itemize}%
+}
