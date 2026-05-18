@@ -1,20 +1,21 @@
-canonical repo for this project is available on [codeberg](https://codeberg.org/plethu/cv). [github](https://github.com/plethu/cv) is available as a read-only mirror.
-
 # CV
 
-LaTeX source for Allie Mari Jones' CV.
+This is the LaTeX source for my CV.
+
+The canonical repository lives on [Codeberg](https://codeberg.org/plethu/cv).
+[GitHub](https://github.com/plethu/cv) is available as a read-only mirror.
 
 ## Build
 
-Requires a TeX Live installation with `latexmk` and LuaLaTeX. The CV vendors its
-OFL-licensed fonts under `fonts/` so builds do not depend on locally installed
-desktop fonts.
+The build expects a TeX Live installation with `latexmk` and LuaLaTeX. Fonts are
+vendored under `fonts/` using their OFL licences, so the PDF does not depend on
+whatever desktop fonts happen to be installed locally.
 
 ```sh
 make
 ```
 
-The compiled PDF is written to `dist/allie-mari-jones-cv.pdf`.
+The compiled PDF is built to `dist/allie-mari-jones-cv.pdf`.
 
 Useful targets:
 
