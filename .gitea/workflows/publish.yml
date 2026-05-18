@@ -1,0 +1,48 @@
+name: Build and publish CV
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y --no-install-recommends \
+            texlive-luatex texlive-latex-extra texlive-fonts-recommended latexmk
+
+      - name: Build PDF
+        run: make pdf
+
+      - name: Publish to releases
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          API="https://codeberg.org/api/v1/repos/plethu/cv"
+
+          # Remove existing latest release and tag
+          id=$(curl -sf -H "Authorization: token $TOKEN" \
+            "$API/releases/tags/latest" \
+            | python3 -c "import sys,json; print(json.load(sys.stdin)['id'])" 2>/dev/null || true)
+          [ -n "$id" ] && curl -sf -X DELETE -H "Authorization: token $TOKEN" "$API/releases/$id" || true
+          curl -sf -X DELETE -H "Authorization: token $TOKEN" "$API/tags/latest" || true
+
+          # Create a fresh latest release
+          id=$(curl -sf -X POST \
+            -H "Authorization: token $TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"tag_name":"latest","name":"Latest","draft":false,"prerelease":false}' \
+            "$API/releases" \
+            | python3 -c "import sys,json; print(json.load(sys.stdin)['id'])")
+
+          # Attach the PDF
+          curl -sf -X POST \
+            -H "Authorization: token $TOKEN" \
+            -H "Content-Type: application/octet-stream" \
+            --data-binary @dist/allie-mari-jones-cv.pdf \
+            "$API/releases/$id/assets?name=allie-mari-jones-cv.pdf"
