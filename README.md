@@ -5,6 +5,10 @@ This is the LaTeX source for my CV.
 The canonical repository lives on [Codeberg](https://codeberg.org/plethu/cv).
 [GitHub](https://github.com/plethu/cv) is available as a read-only mirror.
 
+## Download
+
+The latest compiled PDF is available on the [Codeberg releases page](https://codeberg.org/plethu/cv/releases/tag/latest).
+
 ## Build
 
 The build expects a TeX Live installation with `latexmk` and LuaLaTeX. Fonts are
