@@ -7,7 +7,7 @@ The canonical repository lives on [Codeberg](https://codeberg.org/plethu/cv).
 
 ## Download
 
-The latest compiled PDF is available on the [Codeberg releases page](https://codeberg.org/plethu/cv/releases/tag/latest).
+The latest compiled PDF is available on the [GitHub releases page](https://github.com/plethu/cv/releases/tag/latest).
 
 ## Build
 
