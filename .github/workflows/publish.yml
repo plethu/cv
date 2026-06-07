@@ -3,25 +3,51 @@ name: Build and publish CV
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-      - name: Install TeX Live
+      - name: Install Typst
         run: |
-          sudo apt-get update -q
-          sudo apt-get install -y --no-install-recommends \
-            texlive-luatex texlive-latex-extra texlive-fonts-recommended latexmk
+          set -eu
+
+          case "$(uname -m)" in
+            x86_64) target="x86_64-unknown-linux-musl" ;;
+            aarch64) target="aarch64-unknown-linux-musl" ;;
+            *) echo "Unsupported runner architecture: $(uname -m)" >&2; exit 1 ;;
+          esac
+
+          version="0.14.2"
+          archive="typst-${target}.tar.xz"
+          curl -fsSLo "$archive" "https://github.com/typst/typst/releases/download/v${version}/${archive}"
+          tar -xf "$archive"
+          sudo install -m 0755 "typst-${target}/typst" /usr/local/bin/typst
+          typst --version
 
       - name: Build PDF
         run: make pdf
 
-      - name: Publish to releases
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: latest
-          name: Latest
-          files: dist/allie-mari-jones-cv.pdf
+      - name: Publish latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PDF: dist/allie-mari-jones-cv.pdf
+        run: |
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git tag --force latest "$GITHUB_SHA"
+          git push --force origin refs/tags/latest
+
+          if gh release view latest >/dev/null 2>&1; then
+            gh release upload latest "$PDF" --clobber
+            gh release edit latest --title "Latest" --notes "Latest CV build from ${GITHUB_SHA}."
+          else
+            gh release create latest "$PDF" --title "Latest" --notes "Latest CV build from ${GITHUB_SHA}." --target "$GITHUB_SHA"
+          fi

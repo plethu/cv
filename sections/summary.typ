@@ -1,4 +1,6 @@
-\cvsection{Summary}
+#import "../style/cv.typ": *
+
+#cv_section[Summary]
 
 I'm a full-stack engineer with 5 years' experience across the web, backend, and mobile systems behind a banking platform serving 100k+ members. I love that the web is a platform almost anyone can access, and I take that seriously: accessibility, performance, and solid testing are defaults in my work, not afterthoughts.
 

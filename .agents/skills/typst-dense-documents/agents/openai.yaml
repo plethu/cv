@@ -1,0 +1,7 @@
+interface:
+  display_name: "Typst Dense Documents"
+  short_description: "Guardrails for dense Typst documents"
+  default_prompt: "Use $typst-dense-documents to edit Typst layout while preserving typography, paths, rendered output, and page-count constraints."
+
+policy:
+  allow_implicit_invocation: true
