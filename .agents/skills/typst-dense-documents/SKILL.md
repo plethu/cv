@@ -1,6 +1,6 @@
 ---
 name: typst-dense-documents
-description: Use when editing dense Typst documents with strict page budgets, typography/layout changes, imports, images, tables/grids, or visual regressions. Requires official-doc semantics, centralized style helpers, and rendered PDF verification.
+description: Use when editing dense Typst documents with strict page budgets, typography/layout changes, imports, images, tables/grids, or visual regressions. Use official Typst docs, keep reusable style in shared helpers, and verify the rendered PDF.
 ---
 
 # Typst Dense Documents

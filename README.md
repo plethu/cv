@@ -11,7 +11,7 @@ The latest compiled PDF is available on the [Codeberg releases page](https://cod
 
 ## Build
 
-The canonical build expects Typst. Fonts are vendored under `fonts/` using their
+The build expects Typst. Fonts are vendored under `fonts/` using their
 OFL licences, so the PDF does not depend on whatever desktop fonts happen to be
 installed locally.
 
